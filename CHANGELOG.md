@@ -1,3 +1,7 @@
+## 2.6.0
+
+- Added `Exists` to support `EXISTS` clauses
+
 ## 2.5.0
 
 - Added `IsNull` to support `IS NULL` clauses
@@ -19,6 +23,7 @@
 - Added `AlterColumn` to support `ALTER COLUMN` statements, along with a bunch of other column operations
 
 ## 2.2.1
+
 - Exported `ConnectionSettings`
 - Fixed `ColumnDefinition` to not automatically quote default values
 
@@ -32,7 +37,6 @@
 - Added `Between` to support `BETWEEN` clauses
 - Added a bunch of helper functions to `Column` to make it easier to use
 - Added & and | operators to FilterStatement to make it easier to group
-
 
 ## 2.0.0
 
