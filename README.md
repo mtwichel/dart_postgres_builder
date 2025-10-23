@@ -2,7 +2,7 @@
 
 [![pub package](https://img.shields.io/pub/v/postgres_builder.svg)](https://pub.dev/packages/postgres_builder)
 [![shorebird ci](https://api.shorebird.dev/api/v1/github/mtwichel/dart_postgres_builder/badge.svg)](https://console.shorebird.dev/ci)
-[![coverage][coverage_badge]][ci_link]
+[![codecov](https://codecov.io/gh/mtwichel/dart_postgres_builder/graph/badge.svg?token=EGXZKAH78S)](https://codecov.io/gh/mtwichel/dart_postgres_builder)
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
 [![License: MIT][license_badge]][license_link]
 [![Powered by Mason](https://img.shields.io/endpoint?url=https%3A%2F%2Ftinyurl.com%2Fmason-badge)](https://github.com/felangel/mason)
