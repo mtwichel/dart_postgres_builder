@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_lambdas
-
 import 'package:mocktail/mocktail.dart';
 import 'package:postgres/postgres.dart';
 import 'package:postgres_builder/postgres_builder.dart';
@@ -33,14 +31,14 @@ void main() {
 
     test('close closes connection', () async {
       final connection = _MockConnection();
-      when(() => connection.close()).thenAnswer((_) async {});
+      when(connection.close).thenAnswer((_) async {});
       final postgresBuilder = DirectPostgresBuilder();
       await postgresBuilder.initialize(
         connectionFactory: (_, {settings}) async => connection,
         endpoint: endpoint,
       );
       await postgresBuilder.close();
-      verify(() => connection.close()).called(1);
+      verify(connection.close).called(1);
     });
 
     group('runQuery', () {

@@ -1,3 +1,4 @@
+// Suppressing so we can override operators
 // ignore_for_file: use_to_and_as_if_applicable
 
 import 'package:postgres_builder/postgres_builder.dart';

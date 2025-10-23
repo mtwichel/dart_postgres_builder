@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_lambdas
-
 import 'package:mocktail/mocktail.dart';
 import 'package:postgres_builder/postgres_builder.dart';
 import 'package:test/test.dart';
@@ -21,7 +19,7 @@ void main() {
     group('toSql() returns correctly', () {
       test('with minimal parameters', () {
         final column = _MockColumn();
-        when(() => column.toSql())
+        when(column.toSql)
             .thenReturn(const ProcessedSql(query: '__query__', parameters: {}));
         final select = Select([column], from: '__table__');
         expect(
@@ -34,10 +32,10 @@ void main() {
       test('with join is provided', () {
         final column = _MockColumn();
         final join = _MockJoin();
-        when(() => column.toSql()).thenReturn(
+        when(column.toSql).thenReturn(
           const ProcessedSql(query: '__column__', parameters: {}),
         );
-        when(() => join.toSql())
+        when(join.toSql)
             .thenReturn(const ProcessedSql(query: '__join__', parameters: {}));
 
         final select = Select([column], join: [join], from: '__table__');
@@ -51,10 +49,10 @@ void main() {
       test('with where is provided', () {
         final column = _MockColumn();
         final where = _MockFilterStatement();
-        when(() => column.toSql()).thenReturn(
+        when(column.toSql).thenReturn(
           const ProcessedSql(query: '__column__', parameters: {}),
         );
-        when(() => where.toSql()).thenReturn(
+        when(where.toSql).thenReturn(
           const ProcessedSql(
             query: '__where__',
             parameters: {'__key__': '__value__'},
@@ -74,10 +72,10 @@ void main() {
       test('with order is provided', () {
         final column = _MockColumn();
         final sort = _MockSort();
-        when(() => column.toSql()).thenReturn(
+        when(column.toSql).thenReturn(
           const ProcessedSql(query: '__column__', parameters: {}),
         );
-        when(() => sort.toSql()).thenReturn(
+        when(sort.toSql).thenReturn(
           const ProcessedSql(query: '__order__', parameters: {}),
         );
 
@@ -93,7 +91,7 @@ void main() {
       test('with limit is provided', () {
         final column = _MockColumn();
 
-        when(() => column.toSql()).thenReturn(
+        when(column.toSql).thenReturn(
           const ProcessedSql(query: '__column__', parameters: {}),
         );
 
@@ -108,11 +106,11 @@ void main() {
       test('with group is provided', () {
         final column = _MockColumn();
 
-        when(() => column.toSql()).thenReturn(
+        when(column.toSql).thenReturn(
           const ProcessedSql(query: '__column__', parameters: {}),
         );
         final group = _MockGroup();
-        when(() => group.toSql()).thenReturn(
+        when(group.toSql).thenReturn(
           const ProcessedSql(query: '__group__', parameters: {}),
         );
         final select = Select([column], group: group, from: '__table__');
