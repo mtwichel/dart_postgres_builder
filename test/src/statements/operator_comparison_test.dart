@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_lambdas
-
 import 'package:mocktail/mocktail.dart';
 import 'package:postgres_builder/postgres_builder.dart';
 import 'package:test/test.dart';
@@ -17,7 +15,7 @@ void main() {
   group('OperatorComparison', () {
     test('toSql() returns correctly', () {
       final column = _MockColumn();
-      when(() => column.toSql())
+      when(column.toSql)
           .thenReturn(const ProcessedSql(query: '__sql__', parameters: {}));
       when(() => column.parameterName).thenReturn('__parameter__');
 
@@ -37,7 +35,7 @@ void main() {
 
     test('toSql() returns correctly when use', () {
       final column = _MockColumn();
-      when(() => column.toSql())
+      when(column.toSql)
           .thenReturn(const ProcessedSql(query: '__sql__', parameters: {}));
       when(() => column.parameterName).thenReturn('__parameter__');
       final comparison = OperatorComparison(
@@ -59,7 +57,7 @@ void main() {
     test('toSql() returns correctly', () {
       final column1 = _MockColumn();
       final column2 = _MockColumn();
-      when(() => column1.toSql())
+      when(column1.toSql)
           .thenReturn(const ProcessedSql(query: '__sql__', parameters: {}));
 
       final comparison = OperatorComparison.otherColumn(
