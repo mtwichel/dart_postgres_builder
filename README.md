@@ -1,7 +1,7 @@
 # Postgres Builder
 
 [![pub package](https://img.shields.io/pub/v/postgres_builder.svg)](https://pub.dev/packages/postgres_builder)
-[![ci][ci_badge]][ci_link]
+[![shorebird ci](https://api.shorebird.dev/api/v1/github/mtwichel/dart_postgres_builder/badge.svg)](https://console.shorebird.dev/ci)
 [![coverage][coverage_badge]][ci_link]
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
 [![License: MIT][license_badge]][license_link]

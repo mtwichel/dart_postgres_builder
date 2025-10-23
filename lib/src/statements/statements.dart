@@ -16,6 +16,7 @@ export 'drop_expression.dart';
 export 'drop_not_null.dart';
 export 'drop_table.dart';
 export 'equals.dart';
+export 'exists.dart';
 export 'foreign_key_constraint.dart';
 export 'foreign_key_table_constraint.dart';
 export 'group.dart';
