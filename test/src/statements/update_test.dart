@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_lambdas
-
 import 'package:mocktail/mocktail.dart';
 import 'package:postgres_builder/postgres_builder.dart';
 import 'package:test/test.dart';
@@ -12,7 +10,7 @@ void main() {
   group('Update', () {
     test('toSql() returns correctly', () {
       final filterStatement = _MockFilterStatement();
-      when(() => filterStatement.toSql())
+      when(filterStatement.toSql)
           .thenReturn(const ProcessedSql(query: '__where__', parameters: {}));
       expect(
         Update(

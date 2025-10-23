@@ -1,5 +1,6 @@
 import 'package:postgres_builder/postgres_builder.dart';
 
+// One member abstract class is allowed for SqlStatement
 // ignore: one_member_abstracts
 abstract class SqlStatement {
   const SqlStatement();

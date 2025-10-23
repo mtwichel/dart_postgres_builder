@@ -1,5 +1,5 @@
 /// A tool designed to make writing SQL statements easier.
-library postgres_builder;
+library;
 
 export 'package:postgres/postgres.dart'
     show ConnectionSettings, Endpoint, Pool, PoolSettings, SslMode;
