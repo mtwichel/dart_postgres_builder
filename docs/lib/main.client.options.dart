@@ -4,8 +4,9 @@
 // GENERATED FILE, DO NOT MODIFY
 // Generated with jaspr_builder
 
-import 'package:docs/components/clicker.dart' deferred as _clicker;
 import 'package:jaspr/client.dart';
+
+import 'package:docs/components/clicker.dart' deferred as _clicker;
 import 'package:jaspr_content/components/_internal/code_block_copy_button.dart'
     deferred as _code_block_copy_button;
 import 'package:jaspr_content/components/_internal/zoomable_image.dart'

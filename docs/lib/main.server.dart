@@ -6,7 +6,6 @@ library;
 
 // Server-specific Jaspr import.
 import 'package:jaspr/server.dart';
-
 import 'package:jaspr_content/components/callout.dart';
 import 'package:jaspr_content/components/code_block.dart';
 import 'package:jaspr_content/components/github_button.dart';
@@ -18,7 +17,6 @@ import 'package:jaspr_content/jaspr_content.dart';
 import 'package:jaspr_content/theme.dart';
 
 import 'components/clicker.dart';
-
 // This file is generated automatically by Jaspr, do not remove or edit.
 import 'main.server.options.dart';
 
