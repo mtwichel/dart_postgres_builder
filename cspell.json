@@ -3,16 +3,20 @@
   "enabled": true,
   "language": "en",
   "words": [
+    "Blockquotes",
     "endtemplate",
     "genhtml",
+    "jaspr",
     "lcov",
     "mocktail",
     "pana",
     "pubspec",
     "recase",
+    "schultek",
     "upsert",
     "valkey",
-    "writeln"
+    "writeln",
+    "zoomable"
   ],
   "ignorePaths": [
     "**/*.svg"
