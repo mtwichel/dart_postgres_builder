@@ -206,6 +206,224 @@ Represents a database column in queries.
 
 - `~column`: Creates a Not filter (negates the column expression)
 
+### Aggregate Functions
+
+Aggregate functions compute a single result from a set of input values. All aggregate functions can be used in SELECT statements and support aliasing via the `as` parameter.
+
+#### Count
+
+Returns the number of input rows.
+
+**Constructors:**
+
+- `Count(SqlStatement expression, {bool distinct = false, String? as})`: Counts rows matching the expression
+- `Count.star({String? as})`: Counts all rows (`COUNT(*)`)
+
+**Parameters:**
+
+- `expression`: The expression to count (typically a Column)
+- `distinct`: If true, counts only distinct values
+- `as`: Optional alias for the result
+
+**Examples:**
+
+```dart
+// Count all rows
+Select([Count.star()], from: 'users')
+
+// Count distinct values
+Select([Count(Column('age'), distinct: true)], from: 'users')
+
+// Count with alias
+Select([Count.star(as: 'total')], from: 'users')
+```
+
+#### Sum
+
+Calculates the total sum of a numeric column.
+
+**Constructor:**
+
+```dart
+Sum(SqlStatement expression, {bool distinct = false, String? as})
+```
+
+**Parameters:**
+
+- `expression`: The numeric expression to sum (typically a Column)
+- `distinct`: If true, sums only distinct values
+- `as`: Optional alias for the result
+
+**Example:**
+
+```dart
+Select([Sum(Column('price'), as: 'total_price')], from: 'orders')
+```
+
+#### Avg
+
+Computes the average (arithmetic mean) of a numeric column.
+
+**Constructor:**
+
+```dart
+Avg(SqlStatement expression, {bool distinct = false, String? as})
+```
+
+**Parameters:**
+
+- `expression`: The numeric expression to average (typically a Column)
+- `distinct`: If true, averages only distinct values
+- `as`: Optional alias for the result
+
+**Example:**
+
+```dart
+Select([Avg(Column('age'), as: 'avg_age')], from: 'users')
+```
+
+#### Max
+
+Returns the maximum value of a column.
+
+**Constructor:**
+
+```dart
+Max(SqlStatement expression, {String? as})
+```
+
+**Parameters:**
+
+- `expression`: The expression to find the maximum of (typically a Column)
+- `as`: Optional alias for the result
+
+**Example:**
+
+```dart
+Select([Max(Column('age'), as: 'max_age')], from: 'users')
+```
+
+#### Min
+
+Returns the minimum value of a column.
+
+**Constructor:**
+
+```dart
+Min(SqlStatement expression, {String? as})
+```
+
+**Parameters:**
+
+- `expression`: The expression to find the minimum of (typically a Column)
+- `as`: Optional alias for the result
+
+**Example:**
+
+```dart
+Select([Min(Column('age'), as: 'min_age')], from: 'users')
+```
+
+#### StringAgg
+
+Concatenates non-null input values into a string, separated by a specified delimiter.
+
+**Constructor:**
+
+```dart
+StringAgg(
+  SqlStatement expression,
+  String separator, {
+  bool distinct = false,
+  List<Sort>? orderBy,
+  String? as,
+})
+```
+
+**Parameters:**
+
+- `expression`: The expression to concatenate (typically a Column)
+- `separator`: The delimiter string to use between values
+- `distinct`: If true, concatenates only distinct values
+- `orderBy`: Optional list of Sort objects to order the concatenated values
+- `as`: Optional alias for the result
+
+**Example:**
+
+```dart
+Select(
+  [
+    Column('department'),
+    StringAgg(
+      Column('name'),
+      ', ',
+      orderBy: [Sort(Column('name'))],
+      as: 'names',
+    ),
+  ],
+  from: 'users',
+  group: Group([Column('department')]),
+)
+```
+
+#### ArrayAgg
+
+Aggregates input values, including nulls, into an array.
+
+**Constructor:**
+
+```dart
+ArrayAgg(
+  SqlStatement expression, {
+  bool distinct = false,
+  List<Sort>? orderBy,
+  String? as,
+})
+```
+
+**Parameters:**
+
+- `expression`: The expression to aggregate into an array (typically a Column)
+- `distinct`: If true, aggregates only distinct values
+- `orderBy`: Optional list of Sort objects to order the array values
+- `as`: Optional alias for the result
+
+**Example:**
+
+```dart
+Select(
+  [
+    Column('department'),
+    ArrayAgg(
+      Column('id'),
+      orderBy: [Sort(Column('id'), direction: SortDirection.descending)],
+      as: 'ids',
+    ),
+  ],
+  from: 'users',
+  group: Group([Column('department')]),
+)
+```
+
+#### Aggregate Functions with GROUP BY
+
+Aggregate functions are commonly used with GROUP BY clauses:
+
+```dart
+Select(
+  [
+    Column('department'),
+    Count.star(as: 'count'),
+    Avg(Column('age'), as: 'avg_age'),
+    Sum(Column('salary'), as: 'total_salary'),
+  ],
+  from: 'users',
+  group: Group([Column('department')]),
+)
+```
+
+This generates: `SELECT department, COUNT(*) AS "count", AVG(age) AS "avg_age", SUM(salary) AS "total_salary" FROM users GROUP BY department`
+
 ### Filter and Comparison Operations
 
 #### And
