@@ -41,6 +41,5 @@ formatter:
   # Change this to your preferred line length.
   page_width: 120
   trailing_commas: preserve
-
 # For additional information about configuring this file, see
 # https://dart.dev/guides/language/analysis-options

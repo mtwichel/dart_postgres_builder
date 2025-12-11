@@ -9,9 +9,9 @@ This is the starting point for your brand new documentation site, powered by the
 
 Here are a few things you can do to begin:
 
-*   Explore the features of `jaspr_content` inside `lib/main.server.dart`.
-*   Read the [Quick Start Guide]({{links.quickstart}}) to understand how to set up your your content-driven site.
-*   Start adding your own content pages in the `content/` directory.
+- Explore the features of `jaspr_content` inside `lib/main.server.dart`.
+- Read the [Quick Start Guide]({{links.quickstart}}) to understand how to set up your your content-driven site.
+- Start adding your own content pages in the `content/` directory.
 
 ## Showcase
 
@@ -25,7 +25,7 @@ Here are a few things you can do to begin:
 
 ### Inline Elements
 
-Use `inline code` for brief mentions of code, **bold text** for emphasis, or *italic text* for highlighting. You can also create [links to external sites]({{links.website}}).
+Use `inline code` for brief mentions of code, **bold text** for emphasis, or _italic text_ for highlighting. You can also create [links to external sites]({{links.website}}).
 
 ### Blockquotes
 
@@ -60,6 +60,6 @@ You can even **zoom-in** by clicking on the image.
 
 ## More to Discover!
 
-This is just a placeholder to get things started. 
+This is just a placeholder to get things started.
 
 Feel free to explore the [Documentation]({{links.docs}}) to understand the underlying architecture and how you can customize your site further.
