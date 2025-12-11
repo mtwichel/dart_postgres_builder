@@ -64,6 +64,7 @@ class Column implements SqlStatement {
   FilterStatement operator ~() => Not(this);
 
   Equals equals(dynamic other) => Equals(this, other);
+  Equals equalsOtherColumn(Column other) => Equals.otherColumn(this, other);
   NotEquals notEquals(dynamic other) => NotEquals(this, other);
   GreaterThan greaterThan(dynamic other) => GreaterThan(this, other);
   GreaterThanOrEqual greaterThanOrEqual(dynamic other) =>
