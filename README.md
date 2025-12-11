@@ -80,6 +80,7 @@ Select(
   int? limit,
   List<Join>? join,
   Group? group,
+  FilterStatement? having,
 })
 ```
 
@@ -87,11 +88,12 @@ Select(
 
 - `columns`: List of columns or expressions to select
 - `from`: Table name (required)
-- `where`: Optional WHERE clause filter
+- `where`: Optional WHERE clause filter (filters rows before grouping)
 - `order`: Optional list of Sort objects for ORDER BY
 - `limit`: Optional limit for number of rows
 - `join`: Optional list of Join objects
 - `group`: Optional Group object for GROUP BY
+- `having`: Optional HAVING clause filter (filters grouped results after GROUP BY)
 
 #### Insert
 
@@ -423,6 +425,81 @@ Select(
 ```
 
 This generates: `SELECT department, COUNT(*) AS "count", AVG(age) AS "avg_age", SUM(salary) AS "total_salary" FROM users GROUP BY department`
+
+#### Aggregate Functions with HAVING Clause
+
+The HAVING clause allows you to filter grouped results based on aggregate function values. This is different from WHERE, which filters rows before grouping.
+
+**Example:**
+
+```dart
+Select(
+  [
+    Column('age'),
+    Count.star(as: 'count'),
+  ],
+  from: 'users',
+  group: Group([Column('age')]),
+  having: Count.star().greaterThan(5),
+)
+```
+
+This generates: `SELECT age, COUNT(*) AS "count" FROM users GROUP BY age HAVING COUNT(*) > @param_...`
+
+**Using HAVING with multiple conditions:**
+
+```dart
+Select(
+  [
+    Column('department'),
+    Count.star(as: 'count'),
+    Avg(Column('age'), as: 'avg_age'),
+  ],
+  from: 'users',
+  group: Group([Column('department')]),
+  having: Count.star().greaterThan(5) & Avg(Column('age')).greaterThan(30),
+)
+```
+
+**Using both WHERE and HAVING:**
+
+```dart
+Select(
+  [
+    Column('department'),
+    Count.star(as: 'count'),
+  ],
+  from: 'users',
+  where: Column('active').equals(true),  // Filters rows before grouping
+  group: Group([Column('department')]),
+  having: Count.star().greaterThan(10),  // Filters groups after grouping
+)
+```
+
+#### Aggregate Function Comparison Methods
+
+All aggregate functions support comparison methods for use in HAVING clauses:
+
+- `equals(dynamic other)`: Creates an Equals filter (aggregate = value)
+- `notEquals(dynamic other)`: Creates a NotEquals filter (aggregate != value)
+- `greaterThan(dynamic other)`: Creates a GreaterThan filter (aggregate > value)
+- `greaterThanOrEqual(dynamic other)`: Creates a GreaterThanOrEqual filter (aggregate >= value)
+- `lessThan(dynamic other)`: Creates a LessThan filter (aggregate < value)
+- `lessThanOrEqual(dynamic other)`: Creates a LessThanOrEqual filter (aggregate <= value)
+- `between(dynamic lowerValue, dynamic upperValue)`: Creates a Between filter
+
+**Example:**
+
+```dart
+// Filter groups where count is greater than 5
+having: Count.star().greaterThan(5)
+
+// Filter groups where average age is between 25 and 65
+having: Avg(Column('age')).between(25, 65)
+
+// Combine multiple conditions
+having: Count.star().greaterThan(10) & Avg(Column('salary')).lessThan(50000)
+```
 
 ### Filter and Comparison Operations
 

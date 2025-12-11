@@ -31,4 +31,28 @@ abstract class AggregateFunction implements SqlStatement {
       parameters: expressionSql.parameters,
     );
   }
+
+  /// Creates an Equals filter (aggregate = value)
+  Equals equals(dynamic other) => Equals(this, other);
+
+  /// Creates a NotEquals filter (aggregate != value)
+  NotEquals notEquals(dynamic other) => NotEquals(this, other);
+
+  /// Creates a GreaterThan filter (aggregate > value)
+  GreaterThan greaterThan(dynamic other) => GreaterThan(this, other);
+
+  /// Creates a GreaterThanOrEqual filter (aggregate >= value)
+  GreaterThanOrEqual greaterThanOrEqual(dynamic other) =>
+      GreaterThanOrEqual(this, other);
+
+  /// Creates a LessThan filter (aggregate < value)
+  LessThan lessThan(dynamic other) => LessThan(this, other);
+
+  /// Creates a LessThanOrEqual filter (aggregate <= value)
+  LessThanOrEqual lessThanOrEqual(dynamic other) =>
+      LessThanOrEqual(this, other);
+
+  /// Creates a Between filter
+  Between between(dynamic lowerValue, dynamic upperValue) =>
+      Between(this, lowerValue, upperValue);
 }

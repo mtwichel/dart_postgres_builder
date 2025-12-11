@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:postgres_builder/postgres_builder.dart';
 
 class GreaterThan extends OperatorComparison {
@@ -23,20 +25,43 @@ class LessThanOrEqual extends OperatorComparison {
 class Between extends FilterStatement {
   const Between(this.column, this.lowerValue, this.upperValue);
 
-  final Column column;
+  final SqlStatement column;
   final dynamic lowerValue;
   final dynamic upperValue;
 
+  String _getParameterName() {
+    if (column is Column) {
+      return (column as Column).parameterName;
+    }
+    // Generate a unique parameter name for non-Column SqlStatements
+    return 'param_${_generateRandomString()}';
+  }
+
+  String _generateRandomString({int length = 16}) {
+    final random = Random();
+    const letters = 'abcdefghijklmnopqrstuvwxyz';
+
+    return String.fromCharCodes(
+      Iterable.generate(
+        length,
+        (_) => letters.codeUnitAt(random.nextInt(letters.length)),
+      ),
+    );
+  }
+
   @override
   ProcessedSql toSql() {
-    final columnSql = column.toSql().query;
+    final columnSqlResult = column.toSql();
+    final columnSql = columnSqlResult.query;
+    final parameterName = _getParameterName();
 
     return ProcessedSql(
-      query: '$columnSql BETWEEN @${column.parameterName}_lower '
-          'AND @${column.parameterName}_upper',
+      query: '$columnSql BETWEEN @${parameterName}_lower '
+          'AND @${parameterName}_upper',
       parameters: {
-        '${column.parameterName}_lower': lowerValue,
-        '${column.parameterName}_upper': upperValue,
+        ...columnSqlResult.parameters,
+        '${parameterName}_lower': lowerValue,
+        '${parameterName}_upper': upperValue,
       },
     );
   }
