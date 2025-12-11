@@ -1,6 +1,7 @@
-## 2.6.1
+## 2.7.0
 
 - Fixed `Not` to accept any `SqlStatement`
+- Added `equalsOtherColumn` to `Column` to support comparing two columns
 
 ## 2.6.0
 
