@@ -3,7 +3,7 @@ import 'package:postgres_builder/postgres_builder.dart';
 class Not extends FilterStatement {
   const Not(this.column);
 
-  final Column column;
+  final SqlStatement column;
 
   @override
   ProcessedSql toSql() {
