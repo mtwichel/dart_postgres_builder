@@ -1,3 +1,7 @@
+## 2.6.1
+
+- Fixed `Not` to accept any `SqlStatement`
+
 ## 2.6.0
 
 - Added `Exists` to support `EXISTS` clauses
