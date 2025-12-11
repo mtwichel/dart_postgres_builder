@@ -20,28 +20,40 @@ class OperatorComparison extends FilterStatement {
         useParameter = false,
         columnFirst = false;
 
-  final Column column;
+  final SqlStatement column;
   final dynamic value;
   final bool useParameter;
   final String operator;
   final bool columnFirst;
 
+  String _getParameterName() {
+    if (column is Column) {
+      return (column as Column).parameterName;
+    }
+    // Generate a unique parameter name for non-Column SqlStatements
+    return 'param_${generateRandomString()}';
+  }
+
   @override
   ProcessedSql toSql() {
-    final columnSql = column.toSql().query;
+    final columnSqlResult = column.toSql();
+    final columnSql = columnSqlResult.query;
     if (useParameter) {
-      final parameterName = column.parameterName;
+      final parameterName = _getParameterName();
       return ProcessedSql(
         query: columnFirst
             ? '$columnSql $operator @$parameterName'
             : '@$parameterName $operator $columnSql',
-        parameters: {parameterName: value},
+        parameters: {
+          ...columnSqlResult.parameters,
+          parameterName: value,
+        },
       );
     }
 
     return ProcessedSql(
       query: '$columnSql $operator $value',
-      parameters: {},
+      parameters: columnSqlResult.parameters,
     );
   }
 }

@@ -87,5 +87,107 @@ void main() {
         ),
       );
     });
+
+    test('Aggregates with HAVING clause', () {
+      final result = Select(
+        [
+          const Column('age'),
+          const Count.star(as: 'count'),
+        ],
+        from: 'users',
+        group: Group([const Column('age')]),
+        having: const Count.star().greaterThan(5),
+      ).toSql();
+
+      expect(
+        result.query,
+        equals(
+          'SELECT age, COUNT(*) AS "count" FROM users '
+          'GROUP BY age HAVING COUNT(*) > @${result.parameters.keys.first}',
+        ),
+      );
+      expect(result.parameters.values.first, equals(5));
+      expect(result.parameters.length, equals(1));
+    });
+
+    test('Aggregates with HAVING clause using multiple conditions', () {
+      final result = Select(
+        [
+          const Column('department'),
+          const Count.star(as: 'count'),
+          const Avg(Column('age'), as: 'avg_age'),
+        ],
+        from: 'users',
+        group: Group([const Column('department')]),
+        having: const Count.star().greaterThan(5) &
+            const Avg(Column('age')).greaterThan(30),
+      ).toSql();
+
+      expect(
+        result.query,
+        contains('SELECT department, COUNT(*) AS "count", '
+            'AVG(age) AS "avg_age" FROM users GROUP BY department '
+            'HAVING (COUNT(*) > @'),
+      );
+      expect(result.query, contains(' AND AVG(age) > @'));
+      expect(result.parameters.length, equals(2));
+      expect(result.parameters.values, containsAll([5, 30]));
+    });
+
+    test('Aggregates with WHERE and HAVING clauses', () {
+      final result = Select(
+        [
+          const Column('department'),
+          const Count.star(as: 'count'),
+        ],
+        from: 'users',
+        where: const Column('active').equals(true),
+        group: Group([const Column('department')]),
+        having: const Count.star().greaterThan(10),
+      ).toSql();
+
+      expect(
+        result.query,
+        contains('SELECT department, COUNT(*) AS "count" FROM users '
+            'WHERE active = @active GROUP BY department '
+            'HAVING COUNT(*) > @'),
+      );
+      expect(result.parameters['active'], equals(true));
+      expect(result.parameters.length, equals(2));
+      expect(result.parameters.values, contains(10));
+    });
+
+    test('Aggregates with parameters preserved in HAVING clause', () {
+      // Test that parameters from aggregate functions
+      // (like StringAgg with orderBy) are preserved when used in HAVING clauses
+      final result = Select(
+        [
+          const Column('department'),
+          const StringAgg(
+            Column('name'),
+            ', ',
+            orderBy: [Sort(Column('id'))],
+            as: 'names',
+          ),
+        ],
+        from: 'users',
+        group: Group([const Column('department')]),
+        having: const StringAgg(
+          Column('name'),
+          ', ',
+          orderBy: [Sort(Column('id'))],
+        ).greaterThan('test'),
+      ).toSql();
+
+      // Verify the query contains the HAVING clause
+      expect(
+        result.query,
+        contains("HAVING STRING_AGG(name, ', ' ORDER BY id ASC) > @"),
+      );
+      // Verify parameters are present (the comparison value and any from
+      // the aggregate)
+      expect(result.parameters.length, greaterThanOrEqualTo(1));
+      expect(result.parameters.values, contains('test'));
+    });
   });
 }

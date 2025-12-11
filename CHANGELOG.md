@@ -3,6 +3,7 @@
 - Fixed `Not` to accept any `SqlStatement`
 - Added `equalsOtherColumn` to `Column` to support comparing two columns
 - Added aggregate functions: `Count`, `Sum`, `Avg`, `Max`, `Min`, `StringAgg`, `ArrayAgg`
+- Added having support to aggregate functions
 
 ## 2.6.0
 

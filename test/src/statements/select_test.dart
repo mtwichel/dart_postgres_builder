@@ -121,6 +121,106 @@ void main() {
           ),
         );
       });
+
+      test('with having is provided', () {
+        final column = _MockColumn();
+        final having = _MockFilterStatement();
+        when(column.toSql).thenReturn(
+          const ProcessedSql(query: '__column__', parameters: {}),
+        );
+        when(having.toSql).thenReturn(
+          const ProcessedSql(
+            query: '__having__',
+            parameters: {'__key__': '__value__'},
+          ),
+        );
+
+        final select = Select([column], having: having, from: '__table__');
+        expect(
+          select.toSql(),
+          equalsSql(
+            query: '''SELECT __column__ FROM __table__ HAVING __having__''',
+            parameters: {'__key__': '__value__'},
+          ),
+        );
+      });
+
+      test('with group and having is provided', () {
+        final column = _MockColumn();
+        final group = _MockGroup();
+        final having = _MockFilterStatement();
+        when(column.toSql).thenReturn(
+          const ProcessedSql(query: '__column__', parameters: {}),
+        );
+        when(group.toSql).thenReturn(
+          const ProcessedSql(query: '__group__', parameters: {}),
+        );
+        when(having.toSql).thenReturn(
+          const ProcessedSql(
+            query: '__having__',
+            parameters: {'__key__': '__value__'},
+          ),
+        );
+
+        final select = Select(
+          [column],
+          group: group,
+          having: having,
+          from: '__table__',
+        );
+        expect(
+          select.toSql(),
+          equalsSql(
+            query:
+                '''SELECT __column__ FROM __table__ __group__ HAVING __having__''',
+            parameters: {'__key__': '__value__'},
+          ),
+        );
+      });
+
+      test('with where, group, and having is provided', () {
+        final column = _MockColumn();
+        final where = _MockFilterStatement();
+        final group = _MockGroup();
+        final having = _MockFilterStatement();
+        when(column.toSql).thenReturn(
+          const ProcessedSql(query: '__column__', parameters: {}),
+        );
+        when(where.toSql).thenReturn(
+          const ProcessedSql(
+            query: '__where__',
+            parameters: {'__where_key__': '__where_value__'},
+          ),
+        );
+        when(group.toSql).thenReturn(
+          const ProcessedSql(query: '__group__', parameters: {}),
+        );
+        when(having.toSql).thenReturn(
+          const ProcessedSql(
+            query: '__having__',
+            parameters: {'__having_key__': '__having_value__'},
+          ),
+        );
+
+        final select = Select(
+          [column],
+          where: where,
+          group: group,
+          having: having,
+          from: '__table__',
+        );
+        expect(
+          select.toSql(),
+          equalsSql(
+            query:
+                '''SELECT __column__ FROM __table__ WHERE __where__ __group__ HAVING __having__''',
+            parameters: {
+              '__where_key__': '__where_value__',
+              '__having_key__': '__having_value__',
+            },
+          ),
+        );
+      });
     });
   });
 }

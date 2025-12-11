@@ -9,6 +9,7 @@ class Select implements SqlStatement {
     this.limit,
     this.join,
     this.group,
+    this.having,
   }) : table = from;
 
   final List<SqlStatement> columns;
@@ -18,12 +19,17 @@ class Select implements SqlStatement {
   final int? limit;
   final Group? group;
   final List<Join>? join;
+  final FilterStatement? having;
 
   @override
   ProcessedSql toSql() {
     ProcessedSql? processedWhere;
     if (where != null) {
       processedWhere = where!.toSql();
+    }
+    ProcessedSql? processedHaving;
+    if (having != null) {
+      processedHaving = having!.toSql();
     }
     final query = [
       'SELECT',
@@ -36,6 +42,10 @@ class Select implements SqlStatement {
         processedWhere.query,
       ],
       if (group != null) group!.toSql().query,
+      if (processedHaving != null) ...[
+        'HAVING',
+        processedHaving.query,
+      ],
       if (order != null)
         'ORDER BY ${order!.map((e) => e.toSql().query).join(', ')}',
       if (limit != null) 'LIMIT $limit',
@@ -45,6 +55,7 @@ class Select implements SqlStatement {
       query: query,
       parameters: {
         ...?processedWhere?.parameters,
+        ...?processedHaving?.parameters,
         for (final column in columns) ...column.toSql().parameters,
         if (join != null)
           for (final currentJoin in join!) ...currentJoin.toSql().parameters,
