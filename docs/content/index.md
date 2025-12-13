@@ -1,65 +1,46 @@
 ---
-title: Welcome to Your New Docs Site!
-description: A placeholder page for your new documentation site.
+title: Postgres Builder
+description: A tool designed to make writing SQL statements easier in Dart.
 ---
 
-This is the starting point for your brand new documentation site, powered by the awesome `jaspr_content` package! Jaspr Content makes it easy to create beautiful and functional documentation. You can learn more about its features by visiting the [official documentation]({{links.docs}}).
+# Postgres Builder
 
-## Getting Started
+**Postgres Builder** is a Dart package that makes writing SQL statements easier and more type-safe. Instead of manually constructing SQL strings, you can build queries programmatically using a fluent, builder-style API.
 
-Here are a few things you can do to begin:
+## What is Postgres Builder?
 
-- Explore the features of `jaspr_content` inside `lib/main.server.dart`.
-- Read the [Quick Start Guide]({{links.quickstart}}) to understand how to set up your your content-driven site.
-- Start adding your own content pages in the `content/` directory.
+Postgres Builder provides a clean, intuitive way to construct and execute PostgreSQL queries in Dart. It eliminates the need for string concatenation and manual parameter binding, reducing the risk of SQL injection and making your code more maintainable.
 
-## Showcase
+## Key Features
 
-`jaspr_content` supports all standard markdown syntax, allowing you to format your content effectively. It also supports adding custom components like this one:
+- **Type-Safe Query Building**: Build SELECT, INSERT, UPDATE, DELETE, and UPSERT statements using structured classes
+- **Flexible Query Execution**: Execute queries and get results as maps or mapped to your own data models
+- **Raw SQL Support**: When you need it, execute raw SQL queries with parameter substitution
+- **Rich SQL Features**: Support for joins, aggregations, filtering, sorting, grouping, and more
+- **Connection Pooling**: Built-in support for connection pooling via `PgPoolPostgresBuilder`
+- **Extensible**: Create your own builder implementations by extending `PostgresBuilder`
 
-<Info>
-  This is an example of a custom component. You can create your own or use the ones provided by `jaspr_content` to enhance your documentation!
-
-  <Clicker/>
-</Info>
-
-### Inline Elements
-
-Use `inline code` for brief mentions of code, **bold text** for emphasis, or _italic text_ for highlighting. You can also create [links to external sites]({{links.website}}).
-
-### Blockquotes
-
-> This is a blockquote. It's great for highlighting important information or quotes.
-> It has a custom color applied to it using `jaspr_content`s theming capabilities.
-
-### Code Blocks
-
-You can easily include code snippets. `jaspr_content` even comes with syntax highlighting and copy functionality out of the box.
+## Quick Example
 
 ```dart
-// lib/main.server.dart
-import 'package:jaspr/jaspr.dart';
-import 'package:jaspr_content/jaspr_content.dart';
+// Create a builder instance
+final builder = PgPoolPostgresBuilder(
+  endpoint: Endpoint(...),
+);
 
-void main() {
-  runApp(ContentApp(
-    parsers: [
-      MarkdownParser(),
-    ],
-  ));
-}
+// Build and execute a query
+final users = await builder.query(
+  Select(
+    [Column('id'), Column('name'), Column('email')],
+    from: 'users',
+    where: Column('active').equals(true),
+    order: [Sort(Column('name'))],
+  ),
+);
 ```
 
-## Images
+## Learn More
 
-Displaying images is straightforward:
+For detailed documentation, API reference, and examples, check out the full documentation (coming soon).
 
-![Jasper Photo](https://jaspr.site/images/jasper_resized/17.webp)
-
-You can even **zoom-in** by clicking on the image.
-
-## More to Discover!
-
-This is just a placeholder to get things started.
-
-Feel free to explore the [Documentation]({{links.docs}}) to understand the underlying architecture and how you can customize your site further.
+To get started right away, visit the [package on pub.dev](https://pub.dev/packages/postgres_builder) or check out the [README](https://github.com/mtwichel/dart_postgres_builder) for installation and usage instructions.
