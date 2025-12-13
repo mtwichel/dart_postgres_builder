@@ -16,7 +16,6 @@ import 'package:jaspr_content/components/theme_toggle.dart';
 import 'package:jaspr_content/jaspr_content.dart';
 import 'package:jaspr_content/theme.dart';
 
-import 'components/clicker.dart';
 // This file is generated automatically by Jaspr, do not remove or edit.
 import 'main.server.options.dart';
 
@@ -48,11 +47,6 @@ void main() {
         Callout(),
         // Adds syntax highlighting to code blocks.
         CodeBlock(),
-        // Adds a custom Jaspr component to be used as <Clicker/> in markdown.
-        CustomComponent(
-          pattern: 'Clicker',
-          builder: (_, _, _) => Clicker(),
-        ),
         // Adds zooming and caption support to images.
         Image(zoom: true),
       ],
@@ -60,13 +54,13 @@ void main() {
         // Out-of-the-box layout for documentation sites.
         DocsLayout(
           header: Header(
-            title: 'My Docs',
+            title: 'Dart Postgres Builder Docs',
             logo: '/images/logo.svg',
             items: [
               // Enables switching between light and dark mode.
               ThemeToggle(),
               // Shows github stats.
-              GitHubButton(repo: 'schultek/jaspr'),
+              GitHubButton(repo: 'mtwichel/dart_postgres_builder'),
             ],
           ),
           sidebar: Sidebar(
@@ -75,12 +69,6 @@ void main() {
               SidebarGroup(
                 links: [
                   SidebarLink(text: "Overview", href: '/'),
-                ],
-              ),
-              SidebarGroup(
-                title: 'Content',
-                links: [
-                  SidebarLink(text: "About", href: '/about'),
                 ],
               ),
             ],
